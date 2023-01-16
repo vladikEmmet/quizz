@@ -64,6 +64,10 @@ const Questions = ({ categories, difficulty }) => {
     }
   }, [categories, difficulty]);
 
+  useEffect(() => {
+    document.title = `Question ${curQuestion}/10`;
+  }, [curQuestion]);
+
   return (
     <div className="questions-display">
       <div
