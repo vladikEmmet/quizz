@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import QuestionSelection from "./Components/QuestionSelection";
 
 function App() {
+  const [categories, setCategories] = useState([]);
+  const [difficulty, setDifficulty] = useState("");
+
+  const findCategory = (value) => categories.indexOf(value);
+
+  const handleSetDifficulty = (value) =>
+    difficulty === value ? setDifficulty("") : setDifficulty(value);
+
+  const startGame = () => document.body.classList.add("non-scrolled");
+
+  const handleSetCategory = (value) => {
+    const category = findCategory(value);
+    if (category === -1) {
+      setCategories([...categories, value]);
+    } else {
+      const newArr = [...categories];
+      newArr.splice(category, 1);
+      setCategories(newArr);
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div className="welcome-display">
+        <h1>Are you smart?</h1>
+        <h2>Let`s check it!</h2>
+        <button
+          onClick={() =>
+            window.scrollTo(0, document.documentElement.clientHeight)
+          }
         >
-          Learn React
-        </a>
-      </header>
+          Start
+        </button>
+      </div>
+      <QuestionSelection
+        categories={categories}
+        difficulty={difficulty}
+        handleSetCategory={handleSetCategory}
+        handleSetDifficulty={handleSetDifficulty}
+        startGame={startGame}
+      />
     </div>
   );
 }
